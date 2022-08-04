@@ -2,7 +2,10 @@
 > Week 22 MIT xPro Full Stack Developer Certificate Program
 
 ## Description
-Similar to the week 21 project, this project is to create a simple CRUD application to create and destroy users to an application.
+Similar to the week 21 project, this project is to create a simple CRUD application to create and destroy users to an application. 
+
+### Differences from Week 21 Project
+Including HTTP POST opperations
 
 
 ### Week 21 Project Description
