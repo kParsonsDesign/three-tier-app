@@ -50,8 +50,8 @@
   <!-- Nav Bar -->
   <div w3-include-html="nav.html"></div>
 
-  <main role="main" class="container mt-3">
-    <h1>All Users</h1>
+  <main role="main" class="container-flex mt-3 p-3">
+    <h1 class="m-3 fw-light">All Users</h1>
     <div class="grid-container" id="allUsers"></div>
   </main>
   
@@ -76,22 +76,31 @@
         }
         else{
           console.log(res)
-          res.body.forEach((user) => {
+          res.body.forEach((user, index) => {
             html += `
               <div class="card mx-1">
-                <img class="card-img-top" src="${user.avatar}" alt="Avatar for ${user.fullName}" />
+                <img class="rounded-circle m-2 mx-auto" style="width:6rem;height:6rem;" src="${user.avatar}" alt="Avatar for ${user.fullName}" />
                 <div class="card-body">
-                  <h5 class="card-title">${user.fullName}</h5>
-                  <p class="card-text" style="overflow-x: scroll; white-space:nowrap">
-                    DOB: ${new Date(user.dob).toLocaleDateString()}<br />
-                    Email: ${user.email}<br />
-                    Username: ${user.username}<br />
-                    Password: ${user.password}<br />
-                    Phone: ${user.phone}<br />
-                    Street Address: ${user.streetaddress}<br />
-                    City, State, Zip: ${user.citystatezip}<br />
-                    Latitude: ${user.latitude}<br />
-                    Longitude: ${user.longitude}<br />
+                  <div class="text-center">
+                    <h5 class="card-title fw-semibold">${user.fullName}</h5>
+                    <p class="fw-light" style="font-size:0.85rem">${user.email}</p>
+                  </div>
+                  <p class="card-text" style="">
+                    <span class="fw-light">DOB:</span> ${new Date(user.dob).toLocaleDateString()}<br />
+                    <span class="fw-light">Username:</span><br />
+                      <span class="ms-3">${user.username}</span><br />
+                    <span class="fw-light">Phone:</span><br />
+                      <span class="ms-3">${user.phone}</span><br />
+                    <a class="btn w-100 m-0 p-1" data-bs-toggle="collapse" href="#collapse${index}" role="button" aria-expanded="false" aria-controls="collapse${index}" style="position:relative;left:-0.2rem;"><span class="fw-light" style="float:left">Address:</span> 
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="float:right; margin-top:0.5rem" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                      </svg></a>
+                      <span class="collapse m-0" id="collapse${index}">
+                        <span class="d-inline-block ms-3">${user.streetaddress}<br />
+                        ${user.citystatezip}</span>
+                      </span>
+                    <span class="fw-light">Latitude:</span> ${user.latitude}<br />
+                    <span class="fw-light">Longitude:</span> ${user.longitude}<br />
                   </p>
                 </div>
               </div>
@@ -117,3 +126,6 @@
   }
   data()
 </script>
+
+<!-- Bootstrap JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
