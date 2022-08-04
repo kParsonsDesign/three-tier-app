@@ -49,48 +49,23 @@
 
   <main role="main" class="container mt-3">
 
-    <div class="row m-1 py-2">
-      <!-- <div class="col">
-        <button type="button" class="btn btn-primary" onclick="posts()">Update All Posts</button>
-      </div> -->
-      <form class="input-group" style="width: 15rem;" id="deletePost">
-        <button type="submit" class="btn btn-primary">Delete Post</button>
-        <!-- <div class="form-floating"> -->
-          <input class="form-control" id="deletePostID" placeholder="Post ID" type="text" pattern="[0-9]+" />
-          <!-- <label for="deletePostID">Post ID</label> -->
-        <!-- </div> -->
-      </form>
-    </div>
-
-    <!-- Add Post Input Row -->
-    <form class="row m-1 py-2" id="addPost">
-      <div class="input-group" style="max-width: 35rem;">
-        <button type="submit" class="btn btn-primary">Add Post</button>
-        <input class="form-control" type="text" placeholder="Post Title" />
-        <input class="form-control" type="text" placeholder="Published Status" style="max-width: 10rem;" pattern="[Tt]rue|[Ff]alse|TRUE|FALSE" />
-      </div>
-    </form>
-
-    <!-- Change Post Status Row -->
-    <form class="row m-1 py-2" id="changeStatus">
-      <div class="input-group" style="max-width: 35rem;">
-        <button type="submit" class="btn btn-primary">Change Post Status</button>
-        <input class="form-control" type="text" placeholder="Post ID" pattern="[0-9]+" />
-        <input class="form-control" type="text" placeholder="Published Status" style="max-width: 10rem;" pattern="[Tt]rue|[Ff]alse|TRUE|FALSE" />
-      </div>
-    </form>
-
     <h3 class="mt-3">All Users:</h3>
-    <div id="posts">
-      <table class="table table-striped" style="max-width: 50rem;">
-        <thead><tr>
-          <th class="col-md-1">id</th>
-          <th class="col-md-4">title</th>
-          <th class="col-md-2">published</th>
-        </tr></thead>
-        <tbody id="postsBody"></tbody>
-      </table>
-    </div>
+      <div id="users" class="table-responsive mb-5">
+        <table class="table table-striped" style="max-width: 50rem;">
+          <thead><tr>
+            <th class="col">Avatar</th>
+            <th class="col">Full Name</th>
+            <th class="col">Birth Date</th>
+            <th class="col">Email</th>
+            <th class="col">Username</th>
+            <th class="col">Password</th>
+            <th class="col">Phone</th>
+            <th class="col">Address</th>
+            <th class="col">City, State, Zip</th>
+          </tr></thead>
+          <tbody id="usersBody"></tbody>
+        </table>
+      </div>
     <div id="status"></div>
 
   </main>
@@ -103,42 +78,61 @@
 </script>
 
 <script>
-  function posts() {
-    const posts = document.getElementById('posts');
-    const allPostsUrl = '/posts';
-    const postsBody = document.getElementById('postsBody')
+  function users() {
+    const users = document.getElementById('users');
+    const allUsersUrl = '/users';
+    const usersBody = document.getElementById('usersBody')
 
     superagent
-      .get(allPostsUrl)
+      .get(allUsersUrl)
       .end((err, res) => {
         if (err) {
           console.log(err)
         } else {
-          let allPosts = res.body
-          if (allPosts) {
-            if (postsBody.innerHTML !== '') postsBody.innerHTML = ''
+          let allUsers = res.body
+          if (allUsers) {
+            if (usersBody.innerHTML !== '') usersBody.innerHTML = ''
             
-            allPosts.forEach(post => {
+            allUsers.forEach(user => {
               let row = document.createElement('tr')
-              let id = document.createElement('td')
-              id.innerHTML = post.id
-              let title = document.createElement('td')
-              title.innerHTML = post.title
-              let published = document.createElement('td')
-              published.innerHTML = post.published
-              row.appendChild(id)
-              row.appendChild(title)
-              row.appendChild(published)
-              postsBody.appendChild(row)
+              let avatar = document.createElement('td')
+              avatar.innerHTML = `<img src="${user.avatar}" width="64" height="64" />`
+              // avatar.innerHTML = user.avatar
+              row.appendChild(avatar)
+              let name = document.createElement('td')
+              name.innerHTML = user.fullName
+              row.appendChild(name)
+              let dob = document.createElement('td')
+              dob.innerHTML = new Date(user.dob).toLocaleDateString()
+              row.appendChild(dob)
+              let email = document.createElement('td')
+              email.innerHTML = user.email
+              row.appendChild(email)
+              let username = document.createElement('td')
+              username.innerHTML = user.username
+              row.appendChild(username)
+              let password = document.createElement('td')
+              password.innerHTML = user.password
+              row.appendChild(password)
+              let phone = document.createElement('td')
+              phone.innerHTML = user.phone
+              row.appendChild(phone)
+              let streetaddress = document.createElement('td')
+              streetaddress.innerHTML = user.streetaddress
+              row.appendChild(streetaddress)
+              let citystatezip = document.createElement('td')
+              citystatezip.innerHTML = user.citystatezip
+              row.appendChild(citystatezip)
+              usersBody.appendChild(row)
             });
           } else {
-            postsBody.appendChild('<tr><td>No Posts</td></tr>')
+            usersBody.appendChild('<tr><td>No Users</td></tr>')
           }
-          console.log(allPosts)
+          console.log(allUsers)
         }
       })
   }
-  posts()
+  users()
 
   // delete post
   document.getElementById('deletePost').addEventListener('submit', deletePost)
