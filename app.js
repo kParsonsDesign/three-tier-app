@@ -61,11 +61,8 @@ app.post('/test', async function(req, res) {
 // Add User
 //    Endpoint: curl http://localhost:3000/add
 // ----------------------------------------------------
-// import { makeFakeUser } from './addUser'
 import { faker } from '@faker-js/faker'
-import { default as superagent } from 'superagent'
 app.post('/add', async function(req, res) {
-
   const firstName     = faker.name.firstName()
   const lastName      = faker.name.lastName()
   const fullName      = `${firstName} ${lastName}`
@@ -82,23 +79,6 @@ app.post('/add', async function(req, res) {
   const latitude      = faker.address.latitude()
   const longitude     = faker.address.longitude()
   const avatar        = faker.image.avatar()
-
-  // write to console
-  // ----------------------
-  console.log(firstName)
-  console.log(lastName)
-  console.log(fullName)
-  // need to pretty dob
-  console.log(dob)
-  console.log(email)
-  console.log(username)
-  console.log(password)
-  console.log(phone)
-  console.log(streetaddress)
-  console.log(citystatezip)
-  console.log(latitude)
-  console.log(longitude)
-  console.log(avatar)
 
   // user object
   const user = {
@@ -142,7 +122,7 @@ app.post('/add', async function(req, res) {
   await db.read()
   db.data.users.push(user)
   await db.write()
-  console.log(db.data.users)
+  console.log(db.data.users[db.data.users.length - 1])
   res.send(db.data.users[db.data.users.length - 1])
 })
 
