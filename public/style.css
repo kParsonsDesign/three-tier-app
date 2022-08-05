@@ -1,3 +1,8 @@
+.wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
 .grid-container {
   display: grid;
   column-gap: 1rem;
@@ -9,8 +14,9 @@
   }
 
 .userdata {
-  height :60vh; 
-  overflow: scroll;
+  flex-grow: 1;
+  overflow-y: scroll;
+  margin-bottom: 2rem;
   }
 .json-key {
   color: brown;
@@ -21,15 +27,3 @@
 .json-string {
   color: olive;
   }
-
-@media screen and (min-height: 15rem) {
-  .userdata {
-    height :70vh; 
-    }
-}
-
-@media screen and (min-height: 30rem) {
-  .userdata {
-    height :80vh; 
-    }
-}

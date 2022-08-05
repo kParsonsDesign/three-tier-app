@@ -45,12 +45,17 @@
   </script>
 
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* styles for responsive data container this page only */
+    body{position: fixed;top:0;bottom: 0;width: 100%;height: 100%;}
+    main{display:flex; flex-direction:column; height:calc(100% - 4rem)}
+  </style>
 </head>
 <body>
   <div w3-include-html="nav.html" class="bg-light" style="width:100%; min-height:3rem"></div>
 
   <main role="main" class="container-lg mt-3">
-    <h1 class="fw-light">All Users - JSON</h1>
+    <h1 class="fw-light" style="flex-grow: 2;">All Users - JSON</h1>
     <div class="border rounded p-2 userdata">
       <pre id="allUsers"></pre>
     </div>
