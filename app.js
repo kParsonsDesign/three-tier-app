@@ -2,6 +2,9 @@
 import express from 'express'
 const app = express()
 
+import compression from 'compression'
+import helmet from 'helmet'
+
 // Install LowDB v.3.0.0
 import { join, dirname } from 'path'
 import { Low, JSONFile } from 'lowdb'
@@ -17,6 +20,10 @@ const db = new Low(adapter)
 // Set up Data-Parser
 // use express built in json parser instead of body-parser
 app.use(express.json())
+// compress all routes
+app.use(compression())
+// express app security by setting HTTP headers
+app.use(helmet())
 
 // Serve static files using express
 app.use(express.static(join(__dirname, 'public')))
