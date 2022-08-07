@@ -15,16 +15,15 @@ const adapter = new JSONFile(file)
 const db = new Low(adapter)
 
 // Set up Data-Parser
-// import bodyParser from 'body-parser'
-// app.use(bodyParser.urlencoded({ extended: false }))
-// app.use(bodyParser.json())
+// use express built in json parser instead of body-parser
 app.use(express.json())
 
 // Serve static files using express
-import path from 'path'
-app.use(express.static(path.join(__dirname, 'public')))
-// add User reference
-// app.use('/scripts/addUser.js', express.static(path.join(__dirname, 'addUser.js')))
+app.use(express.static(join(__dirname, 'public')))
+// include Bootstrap
+app.use('/bootstrap', express.static(join(__dirname, '/node_modules/bootstrap/dist')))
+// include superagent
+app.use('/superagent', express.static(join(__dirname, '/node_modules/superagent/dist')))
 
 
 // ----------------------------------------------------
@@ -58,11 +57,11 @@ app.post('/test', async function(req, res) {
 })
 
 // ----------------------------------------------------
-// Add User
-//    Endpoint: curl http://localhost:3000/add
+// Fake User
+//    Endpoint: http://localhost:3000/fake
 // ----------------------------------------------------
 import { faker } from '@faker-js/faker'
-app.post('/add', async function(req, res) {
+app.get('/fake', async function(req, res) {
   const firstName     = faker.name.firstName()
   const lastName      = faker.name.lastName()
   const fullName      = `${firstName} ${lastName}`
@@ -80,8 +79,7 @@ app.post('/add', async function(req, res) {
   const longitude     = faker.address.longitude()
   const avatar        = faker.image.avatar()
 
-  // user object
-  const user = {
+  const fakeUser = {
     firstName,
     lastName,
     fullName,
@@ -100,24 +98,51 @@ app.post('/add', async function(req, res) {
     avatar
   }
 
-  // const user = {
-  //   'firstName'     : req.body.firstName,
-  //   'lastName'      : req.body.lastName,
-  //   'fullName'      : req.body.fullName,
-  //   'dob'           : req.body.dob,
-  //   'email'         : req.body.email,
-  //   'username'      : req.body.username,
-  //   'password'      : req.body.password,
-  //   'phone'         : req.body.phone,
-  //   'streetaddress' : req.body.streetaddress,
-  //   'city'          : req.body.city,
-  //   'state'         : req.body.state,
-  //   'zip'           : req.body.zip,
-  //   'citystatezip'  : req.body.citystatezip,
-  //   'latitude'      : req.body.latitude,
-  //   'longitude'     : req.body.longitude,
-  //   'avatar'        : req.body.avatar
-  // }
+  res.send(fakeUser)
+})
+
+
+// ----------------------------------------------------
+// Add User
+//    Endpoint: curl http://localhost:3000/add
+// ----------------------------------------------------
+app.post('/add', async function(req, res) {
+  const firstName     = req.body.firstName
+  const lastName      = req.body.lastName
+  const fullName      = `${firstName} ${lastName}`
+  const email         = req.body.email
+  const phone         = req.body.phone
+  const dob           = req.body.dob
+  const avatar        = req.body.avatar
+  const streetaddress = req.body.streetaddress
+  const city          = req.body.city
+  const state         = req.body.state
+  const zip           = req.body.zip
+  const citystatezip  = `${city}, ${state} ${zip}`
+  const latitude      = req.body.latitude
+  const longitude     = req.body.longitude
+  const username      = req.body.username
+  const password      = req.body.password
+
+  // user object
+  const user = {
+    firstName,
+    lastName,
+    fullName,
+    email,
+    phone,
+    dob,
+    avatar,
+    streetaddress,
+    city,
+    state,
+    zip,
+    citystatezip,
+    latitude,
+    longitude,
+    username,
+    password
+  }
 
   await db.read()
   db.data.users.push(user)
