@@ -24,6 +24,11 @@ app.use(express.json())
 app.use(compression())
 // express app security by setting HTTP headers
 app.use(helmet())
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    imgSrc: ["'self'", 'cloudflare-ipfs.com']
+  }
+}));
 
 // Serve static files using express
 app.use(express.static(join(__dirname, 'public')))

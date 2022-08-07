@@ -6,44 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="./kParsons-favicon.png" type="image/png">
   <title>Three Tier - Week 22</title>
-
-  <!-- Bootstrap CSS only -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+  <script type="text/javascript" src="/bootstrap/js/bootstrap.bundle.min.js"></script>
   <!-- Superagent - small, client-side HTTP request library -->
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=WeakRef,BigInt"></script>
-  <script src="https://cdn.jsdelivr.net/npm/superagent"></script>
-
-  <!-- Add External HTML Files -->
-  <script>
-    function includeHTML() {
-      var z, i, elmnt, file, xhttp;
-      /* Loop through a collection of all HTML elements: */
-      z = document.getElementsByTagName("*");
-      for (i = 0; i < z.length; i++) {
-        elmnt = z[i];
-        /*search for elements with a certain atrribute:*/
-        file = elmnt.getAttribute("w3-include-html");
-        if (file) {
-          /* Make an HTTP request using the attribute value as the file name: */
-          xhttp = new XMLHttpRequest();
-          xhttp.onreadystatechange = function() {
-            if (this.readyState == 4) {
-              if (this.status == 200) {elmnt.innerHTML = this.responseText;}
-              if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
-              /* Remove the attribute, and call this function once more: */
-              elmnt.removeAttribute("w3-include-html");
-              includeHTML();
-            }
-          }
-          xhttp.open("GET", file, true);
-          xhttp.send();
-          /* Exit the function: */
-          return;
-        }
-      }
-    }
-  </script>
+  <script src="/superagent/superagent.min.js"></script>
 </head>
 <body>
   <div w3-include-html="nav.html" class="bg-light" style="width:100%; min-height:3rem"></div>
@@ -91,136 +58,6 @@
   
 </body>
 <!-- Include External HTML Files -->
-<script>
-  includeHTML();
-</script>
-
-<script>
-  function users() {
-    const users = document.getElementById('users');
-    const allUsersUrl = '/users';
-    const usersBody = document.getElementById('usersBody')
-
-    superagent
-      .get(allUsersUrl)
-      .end((err, res) => {
-        if (err) {
-          console.log(err)
-        } else {
-          let allUsers = res.body
-          if (allUsers) {
-            if (usersBody.innerHTML !== '') usersBody.innerHTML = ''
-            
-            allUsers.forEach(user => {
-              let row = document.createElement('tr')
-              let avatar = document.createElement('td')
-              avatar.innerHTML = `<img src="${user.avatar}" class="rounded-circle" width="64" height="64" />`
-              // avatar.innerHTML = user.avatar
-              row.appendChild(avatar)
-              let name = document.createElement('td')
-              name.innerHTML = user.fullName
-              row.appendChild(name)
-              let dob = document.createElement('td')
-              dob.innerHTML = new Date(user.dob).toLocaleDateString()
-              row.appendChild(dob)
-              let email = document.createElement('td')
-              email.innerHTML = user.email
-              row.appendChild(email)
-              let username = document.createElement('td')
-              username.innerHTML = user.username
-              row.appendChild(username)
-              let password = document.createElement('td')
-              password.innerHTML = user.password
-              row.appendChild(password)
-              let phone = document.createElement('td')
-              phone.innerHTML = user.phone
-              row.appendChild(phone)
-              let fulladdress = document.createElement('td')
-              fulladdress.innerHTML = `<span style="white-space:nowrap">${user.streetaddress}</span><br />${user.citystatezip}`
-              row.appendChild(fulladdress)
-              // let streetaddress = document.createElement('td')
-              // streetaddress.innerHTML = user.streetaddress
-              // row.appendChild(streetaddress)
-              // let citystatezip = document.createElement('td')
-              // citystatezip.innerHTML = user.citystatezip
-              // row.appendChild(citystatezip)
-              usersBody.appendChild(row)
-            });
-          } else {
-            usersBody.appendChild('<tr><td>No Users</td></tr>')
-          }
-          console.log(allUsers)
-        }
-      })
-  }
-  users()
-
-  // delete post
-  document.getElementById('deletePost').addEventListener('submit', deletePost)
-  function deletePost(e) {
-    e.preventDefault()
-    const deleteUrlBase = '/posts/delete/'
-    const postId = parseInt(e.target[1].value)
-    const deleteUrl = deleteUrlBase + postId
-
-    superagent
-      .get(deleteUrl)
-      .end((err, res) => {
-        if (err) {
-          console.log(err)
-        } else {
-          console.log(res)
-          posts()
-        }
-      })
-  }
-
-  // add post
-  document.getElementById('addPost').addEventListener('submit', addPost)
-  function addPost(e) {
-    e.preventDefault()
-    const addUrlBase = '/posts/add'
-    const postTitle = encodeURIComponent(e.target[1].value)
-    const postStatus = e.target[2].value.toLowerCase() === 'true' ? 'true' : 'false'
-    const addUrl = `${addUrlBase}/${postTitle}/${postStatus}`
-
-    superagent
-      .get(addUrl)
-      .end((err, res) => {
-        if (err) {
-          console.log(err)
-        } else {
-          console.log(res)
-          posts()
-        }
-      })
-  }
-
-  // change post status
-  document.getElementById('changeStatus').addEventListener('submit', changeStatus)
-  function changeStatus(e) {
-    e.preventDefault()
-    console.log(e)
-    const changeStatusUrlBase = '/posts/status'
-    const postId = parseInt(e.target[1].value)
-    const postStatus = e.target[2].value.toLowerCase() === 'true' ? 'true' : 'false'
-    const changeStatusUrl = `${changeStatusUrlBase}/${postId}/${postStatus}`
-
-    superagent
-      .get(changeStatusUrl)
-      .end((err, res) => {
-        if (err) {
-          console.log(err)
-        } else {
-          console.log(res)
-          posts()
-        }
-      })
-  }
-
-
-</script>
-
-<!-- Bootstrap JavaScript Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+<script type="text/javascript" src="./assets/scripts/includeHTML.js"></script>
+<script type="text/javascript" src="./assets/scripts/allUsersTable.js"></script>
 </html>
