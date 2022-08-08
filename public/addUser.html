@@ -175,10 +175,10 @@
             </div>
             <div class="col">
               <label for="userPass" class="opacity-75 ms-1">Password</label>
-              <input type="password" name="userPass" id="userPass" class="form-control" required>
+              <input type="text" name="userPass" id="userPass" class="form-control" required>
               <!-- confirm password -->
               <label for="confPass" class="opacity-75 ms-1">Confirm Password</label>
-              <input type="password" name="confPass" id="confPass" class="form-control" required>
+              <input type="text" name="confPass" id="confPass" class="form-control" required>
             </div>
           </div>
 
@@ -196,6 +196,10 @@
     <div id="status" class="modal" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content">
+          <div class="modal-header">
+            <h5>New User Created</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
           <div id="statusBody" class="modal-body"></div>
         </div>
       </div>
@@ -206,4 +210,4 @@
 </body>
 <!-- Include External HTML Files -->
 <script type="text/javascript" src="./assets/scripts/includeHTML.js"></script>
-<script type="text/javascript" src="/assets/scripts/adduser.js"></script>
+<script type="text/javascript" src="/assets/scripts/addUser.js"></script>
