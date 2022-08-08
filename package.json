@@ -4,7 +4,6 @@
   "engines": {
     "node": "16.14.1"
   },
-  "homepage": "amplify.com",
   "description": "Testing Express and LowDB v.3.0.0",
   "main": "index.js",
   "type": "module",
