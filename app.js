@@ -23,12 +23,27 @@ app.use(express.json())
 // compress all routes
 app.use(compression())
 // express app security by setting HTTP headers
-app.use(helmet())
+// app.use(helmet())
 app.use(helmet.contentSecurityPolicy({
   directives: {
-    imgSrc: ["'self'", 'cloudflare-ipfs.com']
+    imgSrc: ["'self'", 'cloudflare-ipfs.com'],
+    upgradeInsecureRequests: null
   }
-}));
+}))
+app.use(helmet.crossOriginEmbedderPolicy());
+app.use(helmet.crossOriginOpenerPolicy());
+app.use(helmet.crossOriginResourcePolicy());
+app.use(helmet.dnsPrefetchControl());
+app.use(helmet.expectCt());
+app.use(helmet.frameguard());
+app.use(helmet.hidePoweredBy());
+app.use(helmet.hsts());
+app.use(helmet.ieNoOpen());
+app.use(helmet.noSniff());
+app.use(helmet.originAgentCluster());
+app.use(helmet.permittedCrossDomainPolicies());
+app.use(helmet.referrerPolicy());
+app.use(helmet.xssFilter());
 
 // Serve static files using express
 app.use(express.static(join(__dirname, 'public')))
